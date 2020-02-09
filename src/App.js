@@ -1,44 +1,35 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
-
-import Header from './Header'
-import Display from './Display'
 
 class App extends React.Component {
   constructor() {
     super()
     this.state = {
-      location: {},
-      displayInfo: {}
+      forecast: null
     }
-  }
+  } 
 
-  componentDidMount() {
-    if ("geolocation" in navigator) {
-      //yes
-    } else {
+  async componentDidMount() {
+    try {
+      const res = await fetch(`https://api.openweathermap.org/data/2.5/forecast?q=Berlin&units=metric&mode=json&APPID=${process.env.REACT_APP_ID}`)
 
-    }
+      if (res.status >= 400)
+        throw new Error("something went wrong")
 
-    fetch(`https://api.openweathermap.org/data/2.5/forecast?q=Berlin&units=metric&mode=json&APPID=${process.env.REACT_APP_ID}`)
-      .then(response => response.json())
-      .then(res => {
-        console.log("Reponse: ", res)
-        this.setState({
-          location: res.city,
-          displayInfo: res.list[0]
-        })
+      const response = await res.json();
+
+      this.setState({
+        forecast: response
       })
+    } catch (err) {
+      console.log("API error: ", err)
+    }
   }
 
   render() {
     return (
       <div className="App">
-        <Header location={this.state.location}/>
-        <Display
-          displayInfo={this.state.displayInfo}
-          metric="°C"/>
+        <span className="spinner"></span>
       </div>
     );
   }
