@@ -1,6 +1,9 @@
-html, body {
+html, body, div#root, .App {
   height: 100%;
   width: 100%;
+}
+
+body {
   margin: 0;
   background: #cc2b5e; /* fallback for old browsers */
   background: -webkit-linear-gradient(to right, #cc2b5e, #753a88); /* Chrome 10-25, Safari 5.1-6 */
@@ -15,9 +18,16 @@ html, body {
   width: 100%;
 }
 
-.location-box {
-  padding: 20px;
-  font-size: 20px;
+.api-error {
+  height: 70%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#error-icon {
+  background-image: url('/error-weather.png');
+  height: 50%;
 }
 
 .current {
